@@ -1,0 +1,68 @@
+
+<body >
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Profile Card -->
+                <div class="profile-card bg-light p-4 rounded d-flex align-items-center shadow-sm mb-4">
+                    <!-- Display User Profile Image -->
+                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Profile Image" class="profile-img rounded-circle mr-4">
+                    <div class="profile-info">
+                        <!-- Display User's Name -->
+                        <h2 class="text-primary">{{ user?.learner?.username }}</h2>
+                        <!-- Display User's Email -->
+                
+                        <div class="contact-info">
+                            <p>Email: <a href="mailto:{{ user?.email }}">{{ user?.learner?.email }}</a></p>
+                        </div>
+                        <p>Hi, I'm {{ user?.learner?.username }}. I've been in the industry as a web designer for several years, creating beautiful and functional websites.</p>
+                    </div>
+                    <div class="tabs ml-auto">
+                        <button class="btn btn-secondary mr-2">Modifier</button>
+                    </div>
+                </div>
+    
+                <!-- Projects Section -->
+                <div class="projects-section">
+                    <h2 class="mb-4">Cours</h2> 
+                    <div class="row">
+                        <div class="col-md-6 mb-3" *ngFor="let cour of datacour">
+                            <div class="project-card bg-light p-3 rounded shadow-sm">
+                                <!-- Image with fixed size -->
+                                <img *ngIf="cour.image" [src]="cour.image" alt="Course Image" 
+                                    class="mb-3 rounded img-fixed">
+                                
+                                <h3 class="cour_title">{{ cour.titre }}</h3>
+                                <h3>{{ cour.progress_percentage }}%</h3>
+                                <p>{{ cour.description }}</p>
+                                <div class="badge" 
+                                    [ngClass]="{
+                                        'badge-warning': cour.status === 'échoué', 
+                                        'badge-success': cour.status === 'terminé', 
+                                        'badge-primary': cour.status === 'en cours'
+                                    }">
+                                    {{ cour.status }}
+                                </div>
+                                <!-- Delete button -->
+                                <button class="btn btn-danger mt-2" (click)="deleteCourse(cour?.id)">Supprimer </button>
+                                <!-- Display Course ID -->
+                                <p class="mt-2 text-muted">Course ID: {{ cour.id }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    
+            <!-- Skills Section -->
+            <div class="col-md-4">
+                <div class="skills-section">
+                    <h2 class="mb-3">Skills</h2>
+                    <div class="skills-badges">
+                        <span class="badge badge-skill" *ngFor="let skill of skills">{{ skill }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

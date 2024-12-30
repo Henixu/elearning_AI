@@ -1,0 +1,100 @@
+.projects-section {
+    margin-top: 30px;
+    padding: 30px;
+    background-color: #fafafa;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-container input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+.projects-section h2 {
+    font-size: 24px;
+    color: #000000;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.project-card {
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  
+}
+
+.project-card img {
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    width:100%;
+}
+
+.project-card h3 {
+    font-size: 22px; /* Increased size for better visibility */
+    color: #000000;
+    font-weight: 700; /* Bold weight to make the title pop */
+    margin: 15px 0;
+    text-transform: capitalize; /* Ensures the title is capitalized properly */
+}
+
+.project-card p {
+    color: #000000;
+    font-size: 15px;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.date {
+    font-size: 55px;
+    color: #000000;
+    font-weight: 300;
+    padding-left: 11px;
+}
+
+.badge {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-transform: capitalize;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+    color: #fff;
+}
+
+.badge-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+    color: #fff;
+}

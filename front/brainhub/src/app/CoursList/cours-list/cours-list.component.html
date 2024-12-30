@@ -1,0 +1,33 @@
+<div class="projects-section">
+    
+    <h2 class="mb-4">Cours:</h2>
+       <div class="search-container mb-4">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Search courses..." 
+          [(ngModel)]="searchQuery" 
+          (input)="filterCourses()" />
+      </div>
+      <div class="row">
+        <!-- Loop through the filteredCours array -->
+        <div class="col-md-6 mb-3" *ngFor="let cour of filteredCours">
+          <div class="project-card bg-light p-3 rounded shadow-sm">
+            <img [src]="cour.image" alt="Course Image" class="img-fluid rounded mb-3" />
+            <span class="date text-muted">{{ cour.titre }}</span>
+            <h3>{{ cour.niveau_difficulte }}</h3>
+            <p>{{ cour.description }}</p>
+            <div 
+              class="badge" 
+              [ngClass]="{
+                'badge-warning': cour.niveau_difficulte === 'débutant',
+                'badge-primary': cour.niveau_difficulte === 'intermédiaire',
+                'badge-danger': cour.niveau_difficulte === 'avancé'
+              }">
+              {{ cour.niveau_difficulte }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  

@@ -13,4 +13,8 @@ export class CoursesService {
   getCourses(): Observable<CourseResponse> {
     return this.http.get<CourseResponse>(this.apiUrl);
   }
+  addCourseToLearner(learnerId: number, courseId: number): Observable<any> {
+    const payload = { learner_id: learnerId, course_id: courseId };
+    return this.http.post('http://127.0.0.1:8000/add_course', payload);
+  }
 }

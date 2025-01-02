@@ -12,6 +12,7 @@ import { FooterComponent } from './FooterF/footer/footer.component';
 import { ProfileComponent } from './ProfileF/profile/profile.component';
 import { PopupComponent } from './popup/popup.component';
 import { CoursListComponent } from './CoursList/cours-list/cours-list.component';
+import { CourseDetailsComponent } from './course-details/course-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,8 @@ import { CoursListComponent } from './CoursList/cours-list/cours-list.component'
     FooterComponent,
     ProfileComponent,
     PopupComponent,
-    CoursListComponent
+    CoursListComponent,
+    CourseDetailsComponent
   ],
   imports: [
     BrowserModule,

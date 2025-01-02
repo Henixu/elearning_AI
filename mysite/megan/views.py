@@ -368,3 +368,24 @@ def list_courses_by_user_id(request, user_id):
         return JsonResponse({'courses': courses_data}, status=200)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+# View to fetch course details by ID
+def get_course_by_id(request, course_id):
+    if request.method == 'GET':
+        try:
+            # Fetch the course by ID
+            course = Course.objects.get(id=course_id)
+            # Return the course details as a JSON response
+            return JsonResponse({
+                'course': {
+                    'id': course.id,
+                    'titre': course.titre,
+                    'description': course.description,
+                    'niveau_difficulte': course.niveau_difficulte,
+                    'image': course.image,  # Assuming image is a URL or path to the image
+                }
+            }, status=200)
+        except Course.DoesNotExist:
+            return JsonResponse({'error': 'Course not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)

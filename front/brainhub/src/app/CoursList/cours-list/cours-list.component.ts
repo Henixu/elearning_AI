@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../model/course'; // Adjust the path as necessary
 import { UserService } from '../../services/user.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cours-list',
   templateUrl: './cours-list.component.html',
@@ -13,7 +13,7 @@ export class CoursListComponent {
   filteredCours: Course[] = []; // Filtered courses
   searchQuery: string = ''; // Search query
   
-  constructor(private coursesService: CoursesService,private userService: UserService) {}
+  constructor(private coursesService: CoursesService,private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.coursesService.getCourses().subscribe({
@@ -59,6 +59,9 @@ export class CoursListComponent {
       console.error('Learner ID is undefined or user structure is incorrect.');
       alert('Unable to retrieve learner ID. Please check your user data.');
     }
+  }
+  viewCourseDetails(courseId: number): void {
+    this.router.navigate(['/course-details', courseId]);  // Navigate to the course details page
   }
   
   

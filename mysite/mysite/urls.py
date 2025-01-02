@@ -30,5 +30,6 @@ urlpatterns = [
     path('courses/search/title/', search_courses_by_title, name='search_courses_by_title'),
     path('courses/search/difficulty/', search_courses_by_difficulty, name='search_courses_by_difficulty'),
     path('learner/update-preferences/', update_preferences, name='update_preferences'),
-path('list-courses-by-user-id/<int:user_id>/', list_courses_by_user_id, name='list_courses_by_user_id'),
+    path('list-courses-by-user-id/<int:user_id>/', list_courses_by_user_id, name='list_courses_by_user_id'),
+    path('api/course/<int:course_id>/', get_course_by_id, name='get_course_by_id'),
 ]

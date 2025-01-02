@@ -1,0 +1,12 @@
+<div *ngIf="course">
+    <h1>{{ course.titre }}</h1>
+    <img [src]="course.image" alt="Course Image" class="img-fluid" />
+    <div>
+        <p>{{ course.description }}</p>
+      <strong>Difficulty Level: </strong>
+      <span>{{ course.niveau_difficulte }}</span>
+    </div>
+  </div>
+  <div *ngIf="!course">
+    <p>Loading course details...</p>
+  </div>

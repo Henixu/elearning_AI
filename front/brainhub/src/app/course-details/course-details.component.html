@@ -2,11 +2,26 @@
     <h1>{{ course.titre }}</h1>
     <img [src]="course.image" alt="Course Image" class="img-fluid" />
     <div>
-        <p>{{ course.description }}</p>
+      <p>{{ course.description }}</p>
       <strong>Difficulty Level: </strong>
       <span>{{ course.niveau_difficulte }}</span>
     </div>
+  
+    <!-- Video player using iframe if video URL exists -->
+    <div *ngIf="course.video">
+      <strong>Course Video: </strong>
+      <iframe 
+        width="600" 
+        height="400" 
+        [src]="getSanitizedVideoUrl(course.video)" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
   </div>
+  
   <div *ngIf="!course">
     <p>Loading course details...</p>
   </div>
+  

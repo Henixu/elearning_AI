@@ -1,0 +1,15 @@
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .text-danger {
+    color: red;
+  }
+  
+  video {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+  

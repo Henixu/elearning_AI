@@ -5,6 +5,7 @@ export interface Course {
     niveau_difficulte: string;
     date_creation: string;
     image: string;
+    video: string;  // Add the new video field
   }
   
   export interface CourseResponse {

@@ -19,6 +19,7 @@ class Course(models.Model):
     niveau_difficulte = models.CharField(max_length=50, choices=[('débutant', 'Débutant'), ('intermédiaire', 'Intermédiaire'), ('avancé', 'Avancé')])
     date_creation = models.DateField(auto_now_add=True)
     image = models.CharField(max_length=255, null=True, blank=True)
+    video = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.titre

@@ -383,7 +383,8 @@ def get_course_by_id(request, course_id):
                     'titre': course.titre,
                     'description': course.description,
                     'niveau_difficulte': course.niveau_difficulte,
-                    'image': course.image,  # Assuming image is a URL or path to the image
+                    'image': course.image,
+                    'video': course.video,  # Assuming image is a URL or path to the image
                 }
             }, status=200)
         except Course.DoesNotExist:

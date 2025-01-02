@@ -1,0 +1,23 @@
+<div *ngIf="quiz" class="quiz-container">
+  <h1>{{ quiz.quiz }}</h1>
+  <form >
+    <div *ngFor="let question of quiz.questions">
+      <p><strong>{{ question.texte_question }}</strong></p>
+      <div class="choix-container" *ngFor="let choix of question.choix">
+        <label>
+          <input
+            type="radio"
+            name="question{{ question.id }}"
+            [value]="choix"
+            (change)="selectedAnswers[question.id] = choix"
+          />
+          {{ choix }}
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Soumettre</button>
+  </form>
+</div>
+<div *ngIf="!quiz" class="loading-message">
+  <p>Chargement du quiz...</p>
+</div>

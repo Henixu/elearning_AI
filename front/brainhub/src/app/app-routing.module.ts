@@ -6,6 +6,8 @@ import { ProfileComponent } from './ProfileF/profile/profile.component';
 import { HomeComponent } from './HomeF/home/home.component';
 import { CoursListComponent } from './CoursList/cours-list/cours-list.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
+import { QuizComponent } from './quiz/quiz.component';
+
 
 const routes: Routes = [{ path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -13,7 +15,8 @@ const routes: Routes = [{ path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }, 
   { path: 'cours',component: CoursListComponent },
-  { path: 'course-details/:id', component: CourseDetailsComponent }, 
+  { path: 'course-details/:id', component: CourseDetailsComponent },
+  { path: 'quiz/:id', component: QuizComponent }, 
 ];
 
 @NgModule({

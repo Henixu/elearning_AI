@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
-from .models import Learner
+from .models import Learner ,Quiz, Question
 import json
 from .models import Learner, Progress, Recommendation
 from django.contrib.auth.hashers import check_password
@@ -390,3 +390,30 @@ def get_course_by_id(request, course_id):
         except Course.DoesNotExist:
             return JsonResponse({'error': 'Course not found'}, status=404)
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+def quiz_details(request, course_id):
+    # Récupérer le cours
+    course = get_object_or_404(Course, id=course_id)
+
+    # Récupérer le quiz associé au cours
+    try:
+        quiz = Quiz.objects.get(course=course)
+        questions = quiz.questions.all()
+        
+        questions_data = []
+        for q in questions:
+            questions_data.append({
+                "id": q.id,
+                "texte_question": q.texte_question,
+                "choix": [q.choix_1, q.choix_2, q.choix_3],
+                "bonne_reponse": q.bonne_reponse
+            })
+
+        data = {
+            "quiz": quiz.titre,
+            "questions": questions_data
+        }
+
+        return JsonResponse(data)
+    except Quiz.DoesNotExist:
+        return JsonResponse({"error": "Quiz not found for this course."}, status=404)

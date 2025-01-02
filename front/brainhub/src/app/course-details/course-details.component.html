@@ -20,6 +20,11 @@
       </iframe>
     </div>
   </div>
+  <button 
+  class="btn btn-success mt-3" 
+  (click)="navigateToQuiz(courseId)">
+  Quiz
+</button>
   
   <div *ngIf="!course">
     <p>Loading course details...</p>

@@ -13,6 +13,8 @@ import { ProfileComponent } from './ProfileF/profile/profile.component';
 import { PopupComponent } from './popup/popup.component';
 import { CoursListComponent } from './CoursList/cours-list/cours-list.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
+import { QuizComponent } from './quiz/quiz.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +26,8 @@ import { CourseDetailsComponent } from './course-details/course-details.componen
     ProfileComponent,
     PopupComponent,
     CoursListComponent,
-    CourseDetailsComponent
+    CourseDetailsComponent,
+    QuizComponent
   ],
   imports: [
     BrowserModule,

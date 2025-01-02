@@ -3,6 +3,7 @@ import { CoursesService } from '../services/courses.service';
 import { Course } from '../model/course'; // Adjust the path as necessary
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';  // Import DomSanitizer
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-course-details',
   templateUrl: './course-details.component.html',
@@ -15,7 +16,8 @@ export class CourseDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private coursesService: CoursesService,
-    private sanitizer: DomSanitizer // Inject DomSanitizer here
+    private sanitizer: DomSanitizer // Inject DomSanitizer here,
+    ,private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -50,4 +52,8 @@ export class CourseDetailsComponent implements OnInit {
     // Return the URL as-is for now if it's not a YouTube URL (not recommended without sanitization)
     return this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
   }
+  // Method to navigate to the quiz component
+navigateToQuiz(courseId: number): void {
+  this.router.navigate(['/quiz', courseId]);
+}
 }

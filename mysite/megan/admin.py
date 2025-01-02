@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Learner, Progress, Course, Recommendation
+from .models import Learner, Progress, Course,Quiz, Question, Recommendation
 
 
 # Customizing the Learner admin view
@@ -22,3 +22,6 @@ class ProgressAdmin(admin.ModelAdmin):
 admin.site.register(Progress, ProgressAdmin)
 admin.site.register(Course)
 admin.site.register(Recommendation)
+
+admin.site.register(Quiz)
+admin.site.register(Question)

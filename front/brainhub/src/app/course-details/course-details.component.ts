@@ -55,5 +55,7 @@ export class CourseDetailsComponent implements OnInit {
   // Method to navigate to the quiz component
 navigateToQuiz(courseId: number): void {
   this.router.navigate(['/quiz', courseId]);
+  localStorage.setItem('courseId', courseId.toString());
+  console.log('Navigating to quiz for course ID:', courseId);
 }
 }

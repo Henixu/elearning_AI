@@ -417,3 +417,53 @@ def quiz_details(request, course_id):
         return JsonResponse(data)
     except Quiz.DoesNotExist:
         return JsonResponse({"error": "Quiz not found for this course."}, status=404)
+    
+from .models import  Reponse
+@csrf_exempt
+def submit_quiz(request, course_id):
+    if request.method == 'POST':
+        # Récupérer les données envoyées
+        try:
+            data = json.loads(request.body)
+            learner_id = data.get('learnerId')
+            selected_answers = data.get('selectedAnswers')
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+
+        # Récupérer l'apprenant
+        learner = get_object_or_404(Learner, id=learner_id)
+
+        # Calculer le score
+        score = 0
+        total_questions = len(selected_answers)
+        
+        for question_id, selected_answer in selected_answers.items():
+            question = get_object_or_404(Question, id=question_id)
+            
+            # Enregistrer la réponse de l'apprenant
+            Reponse.objects.create(learner=learner, question=question, reponse=selected_answer)
+
+            # Vérifier si la réponse est correcte en comparant avec bonne_reponse
+            if selected_answer == question.bonne_reponse:
+                score += 1
+
+        # Calculer le pourcentage de réussite
+        progress_percentage = (score / total_questions) * 100
+
+        # Mettre à jour ou créer la progression de l'apprenant pour ce cours
+        progress, created = Progress.objects.get_or_create(
+            learner=learner,
+            course_id=course_id
+        )
+        progress.progress_percentage = progress_percentage
+        progress.status = 'terminé' if progress_percentage >= 50 else 'échoué'
+        progress.save()
+
+        return JsonResponse({
+            'message': 'Quiz submitted successfully', 
+            'score': score, 
+            'total_questions': total_questions, 
+            'progress_percentage': progress_percentage
+        })
+
+    return JsonResponse({'error': 'Invalid method'}, status=405)

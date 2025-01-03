@@ -67,3 +67,11 @@ class Recommendation(models.Model):
         return f"Recommandation pour {self.learner.username}"
 
 
+class Reponse(models.Model):
+    learner = models.ForeignKey(Learner, on_delete=models.CASCADE, related_name='reponses')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='reponses')
+    reponse = models.CharField(max_length=255)  # La réponse donnée par l'apprenant
+    
+    def __str__(self):
+        return f"Réponse de {self.learner.user.username} à la question '{self.question.texte_question}'"
+

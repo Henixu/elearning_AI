@@ -1,6 +1,6 @@
 <div *ngIf="quiz" class="quiz-container">
   <h1>{{ quiz.quiz }}</h1>
-  <form >
+  <form (ngSubmit)="onSubmit()">
     <div *ngFor="let question of quiz.questions">
       <p><strong>{{ question.texte_question }}</strong></p>
       <div class="choix-container" *ngFor="let choix of question.choix">

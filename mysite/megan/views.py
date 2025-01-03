@@ -313,30 +313,45 @@ def search_courses_by_difficulty(request):
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
-@csrf_exempt  # Temporarily disable CSRF for simplicity (add CSRF protection in production)
+@csrf_exempt
+def get_learner_skills(request, learner_id):
+    try:
+        # Retrieve the learner by ID
+        learner = Learner.objects.get(id=learner_id)
+
+        # Fetch the skills (assuming `preferences` stores the skills)
+        skills = learner.preferences  # Adjust field name if necessary
+
+        return JsonResponse({'skills': skills}, status=200)
+    except Learner.DoesNotExist:
+        return JsonResponse({'error': 'Learner not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+@csrf_exempt
 def update_preferences(request):
     if request.method == 'PUT':
         try:
-            # Parse the incoming JSON data
             data = json.loads(request.body)
-
+            learner_id = data.get('learnerId')
             preferences = data.get('preferences', [])
-            
-            # Get the learner associated with the authenticated user
-            learner = Learner.objects.get(user=request.user)
 
-            # Update the preferences
+            # Validate input
+            if not learner_id:
+                return JsonResponse({'error': 'Learner ID is required'}, status=400)
+            
+            # Fetch learner by ID
+            learner = Learner.objects.get(id=learner_id)
+            
+            # Update preferences
             learner.preferences = preferences
             learner.save()
 
             return JsonResponse({'message': 'Preferences updated successfully'}, status=200)
-        
         except Learner.DoesNotExist:
-            return JsonResponse({'error': 'Learner not found for the given user'}, status=400)
+            return JsonResponse({'error': 'Learner not found for the given ID'}, status=400)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
-        
-
 
 def list_courses_by_user_id(request, user_id):
     """

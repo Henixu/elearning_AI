@@ -10,7 +10,7 @@ export class ProfileComponent implements OnInit {
   
   cours:any;
   datacour: any[] = []; // Liste pour stocker les cours
-skills = ['HTML', 'CSS', 'JavaScript', 'Machine Learning', 'AI'];
+  skills: string[] = [];
 constructor(private userService: UserService, private http: HttpClient) {}
 user: any;
   ngOnInit() {
@@ -22,6 +22,7 @@ user: any;
     if (this.user && this.user?.user_id) {
       // Appeler l'API pour récupérer les cours liés à l'utilisateur
       this.listCoursesByUserId(this.user?.user_id);
+      this.fetchLearnerSkills(this.user.learner.id);
     }
 
     
@@ -62,6 +63,22 @@ user: any;
           console.error('Error deleting course:', error);
         }
       );
+}
+// Fetch learner skills from backend
+fetchLearnerSkills(learnerId: string) {
+  const apiUrl = `http://localhost:8000/get-learner-skills/${learnerId}/`;
+
+  this.http.get(apiUrl).subscribe(
+    (response: any) => {
+      if (response.skills) {
+        this.skills = response.skills; // Populate skills array
+        console.log('Skills fetched:', this.skills);
+      }
+    },
+    (error) => {
+      console.error('Error fetching skills:', error);
+    }
+  );
 }
 
 }

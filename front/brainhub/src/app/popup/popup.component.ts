@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-popup',
@@ -8,9 +8,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./popup.component.css']
 })
 export class PopupComponent {
-  constructor(private userService: UserService, private http: HttpClient) { }
-
   selectedOptions: string[] = [];
+
+  constructor(private userService: UserService, private http: HttpClient) { }
 
   addToList(option: string): void {
     if (!this.selectedOptions.includes(option)) {
@@ -25,22 +25,18 @@ export class PopupComponent {
     if (user) {
       const updatedPreferences = [...user.learner.preferences, ...this.selectedOptions];
 
-      // Get the token from localStorage (or other storage method)
-      const token = localStorage.getItem('auth_token');
-
-      // If token exists, add it to the request headers
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`
-      });
-
-      // Update preferences via HTTP request to backend
-      this.http.put(`http://localhost:8000/learner/update-preferences/`, {
+      // Send learnerId and preferences in the request body
+      this.http.put('http://localhost:8000/learner/update-preferences/', {
+        learnerId: user.learner.id, // Include learner ID from local storage
         preferences: updatedPreferences
-      }, { headers }).subscribe(
+      }).subscribe(
         (response) => {
           console.log('Preferences updated successfully', response);
           user.learner.preferences = updatedPreferences;
           this.userService.setUser(user);
+
+          // Refresh the page after updating preferences
+          window.location.reload(); // Use window.location.reload to refresh the page
         },
         (error) => {
           console.error('Error updating preferences', error);

@@ -21,3 +21,11 @@
 <div *ngIf="!quiz" class="loading-message">
   <p>Chargement du quiz...</p>
 </div>
+<!-- Modal Dialog -->
+<dialog id="responseDialog">
+  <h2>Quiz Submitted</h2>
+  <p>{{ message }}</p>
+  <p><strong>Score:</strong> {{ responseData?.score }}/{{ responseData?.total_questions }}</p>
+  <p><strong>Progress:</strong> {{ responseData?.progress_percentage }}%</p>
+  <button (click)="closeDialog()" class="btn btn-primary">Close</button>
+</dialog>

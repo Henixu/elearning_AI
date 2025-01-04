@@ -450,7 +450,7 @@ def submit_quiz(request, course_id):
 
         # Calculer le score
         score = 0
-        total_questions = len(selected_answers)
+        total_questions = 5
         
         for question_id, selected_answer in selected_answers.items():
             question = get_object_or_404(Question, id=question_id)

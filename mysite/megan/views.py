@@ -482,3 +482,80 @@ def submit_quiz(request, course_id):
         })
 
     return JsonResponse({'error': 'Invalid method'}, status=405)
+
+
+
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
+import re
+
+def custom_tokenizer(text):
+    # Remove common stopwords but keep relevant terms (like "marketing")
+    text = re.sub(r'\b(?:en|pour|cours|de)\b', '', text)  # Customize stop words as needed
+    return text.split()
+
+def generate_course_recommendations(learner, num_recommendations=5):
+    # Retrieve all courses from the database
+    courses = Course.objects.all()
+
+    # Get the learner's preferences as a space-separated string
+    learner_preferences = ' '.join(learner.preferences)
+    print("Learner Preferences:", learner_preferences)
+
+    # Split the learner's preferences into individual keywords
+    learner_keywords = learner_preferences.lower().split()
+
+    # Filter courses that contain any of the learner's preference keywords
+    recommended_courses = [
+        course for course in courses
+        if any(keyword in course.description.lower() for keyword in learner_keywords)
+    ]
+
+    # If there are no courses directly matching the preferences, fall back to similarity-based recommendations
+    if not recommended_courses:
+        print("No exact match found, falling back to cosine similarity-based recommendations.")
+        # Vectorization of course descriptions using a custom tokenizer
+        vectorizer = TfidfVectorizer(tokenizer=custom_tokenizer, token_pattern=None)
+        course_descriptions = [course.description for course in courses]
+
+        # Combine course descriptions with learner preferences for vectorization
+        tfidf_matrix = vectorizer.fit_transform(course_descriptions + [learner_preferences])
+
+        # Calculate cosine similarity between the learner's preferences and the courses
+        similarity_scores = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1]).flatten()
+
+        # Apply a weight to the similarity scores for learner preferences (boost relevance)
+        similarity_scores *= 1.2  # Increase the weight of learner's preferences
+
+        # Get the indices of the top recommended courses based on similarity scores
+        recommended_indices = similarity_scores.argsort()[::-1][:num_recommendations]
+
+        # Get the recommended courses from the queryset using the indices
+        recommended_courses = [list(courses)[idx] for idx in recommended_indices]
+
+    # Return the filtered or similarity-based recommendations
+    return recommended_courses
+
+def course_recommendations_view(request, learner_id):
+    # Retrieve the learner object from the database using learner_id
+    learner = Learner.objects.get(id=learner_id)
+    
+    # Generate course recommendations based on the learner's preferences
+    recommendations = generate_course_recommendations(learner)
+
+    # Manually serialize the course data (e.g., id, title, description) into a JSON-compatible format
+    serialized_recommendations = [
+        {
+            'id': course.id,
+            'titre': course.titre,
+            'description': course.description,
+            'niveau_difficulte': course.niveau_difficulte,
+            'date_creation': course.date_creation,
+            'image': course.image,
+            'video': course.video,
+        }
+        for course in recommendations
+    ]
+    
+    # Return the recommendations as a JSON response
+    return JsonResponse({"recommendations": serialized_recommendations})

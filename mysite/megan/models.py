@@ -67,6 +67,7 @@ class Recommendation(models.Model):
         return f"Recommandation pour {self.learner.username}"
 
 
+
 class Reponse(models.Model):
     learner = models.ForeignKey(Learner, on_delete=models.CASCADE, related_name='reponses')
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='reponses')

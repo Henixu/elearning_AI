@@ -35,4 +35,5 @@ urlpatterns = [
     path('quiz/<int:course_id>/', views.quiz_details, name='quiz_details'),
     path('submit-quiz/<int:course_id>/', submit_quiz, name='submit_quiz'),
     path('get-learner-skills/<int:learner_id>/', get_learner_skills, name='get_learner_skills'),
+    path('recommendations/<int:learner_id>/', course_recommendations_view, name='course_recommendations'),
 ]

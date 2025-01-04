@@ -1,15 +1,107 @@
-.img-fluid {
-    max-width: 100%;
-    height: auto;
+/* General icon styling for uniform spacing */
+body  {
+  background-color: #6a6969;
+}
+
+.fa {
+  margin-right: 8px;
+}
+
+/* Background gradient for the card */
+.bg-gradient {
+  background: linear-gradient(360deg, #a19e9e, #f8f9fa, #e9ecef);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Gradient badge styling */
+.bg-gradient-to-right {
+  background: linear-gradient(to right, #17a2b8, #007bff);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover effect for the course image */
+.image-hover {
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  border-radius: 10px;
+}
+
+.image-hover:hover {
+  transform: scale(1.1);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Image overlay effect */
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  border-radius: 10px;
+  transition: opacity 0.3s ease;
+}
+
+.image-hover:hover + .image-overlay {
+  opacity: 1;
+}
+
+.overlay-text {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  animation: fadeInOverlayText 0.5s ease;
+}
+
+/* Button gradient and hover effects */
+.btn-gradient {
+  background: linear-gradient(to right, #28a745, #20c997);
+  color: white;
+  border: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(to right, #20c997, #28a745);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.5);
+}
+
+/* Custom animation for overlay text */
+@keyframes fadeInOverlayText {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
   }
-  
-  .text-danger {
-    color: red;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  video {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
-  }
-  
+}
+
+/* Smooth hover animations for cards */
+.card {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+/* Centrage du conteneur vidéo */
+.video-container {
+  max-width: 800px; /* Largeur maximale de la vidéo */
+  margin: 0 auto; /* Centre la vidéo horizontalement */
+}
+
+/* Ajustement des proportions et styles de la vidéo */
+.ratio-16x9 iframe {
+  border-radius: 10px; /* Ajoute des coins arrondis */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Ajoute une ombre */
+}

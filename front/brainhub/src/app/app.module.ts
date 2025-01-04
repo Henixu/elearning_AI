@@ -14,7 +14,7 @@ import { PopupComponent } from './popup/popup.component';
 import { CoursListComponent } from './CoursList/cours-list/cours-list.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
 import { QuizComponent } from './quiz/quiz.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +33,9 @@ import { QuizComponent } from './quiz/quiz.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
+    FormsModule,  
+    ReactiveFormsModule
+
     
   ],
   providers: [

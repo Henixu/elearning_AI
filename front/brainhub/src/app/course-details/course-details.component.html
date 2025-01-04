@@ -1,32 +1,69 @@
-<div *ngIf="course">
-    <h1>{{ course.titre }}</h1>
-    <img [src]="course.image" alt="Course Image" class="img-fluid" />
-    <div>
-      <p>{{ course.description }}</p>
-      <strong>Difficulty Level: </strong>
-      <span>{{ course.niveau_difficulte }}</span>
-    </div>
-  
-    <!-- Video player using iframe if video URL exists -->
-    <div *ngIf="course.video">
-      <strong>Course Video: </strong>
-      <iframe 
-        width="600" 
-        height="400" 
-        [src]="getSanitizedVideoUrl(course.video)" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-      </iframe>
+<body>
+<div *ngIf="course" class="container my-5 animate__animated animate__fadeIn">
+  <div class="card shadow-lg border-0 rounded-lg bg-gradient">
+    <div class="card-body">
+      <!-- Course Title -->
+      <h1 class="card-title text-center text-primary display-4 mb-4 animate__animated animate__zoomIn">
+        <i class="fa-solid fa-book-open-reader me-2 text-success"></i>
+        {{ course.titre }}
+      </h1>
+
+      <!-- Course Image -->
+      <div class="text-center mb-4 position-relative">
+        <img [src]="course.image" alt="Course Image" class="img-fluid rounded shadow-lg image-hover" />
+        <div class="image-overlay d-flex align-items-center justify-content-center">
+          <span class="overlay-text"><i class="fa-solid fa-magnifying-glass"></i> Explore</span>
+        </div>
+      </div>
+
+      <!-- Course Description and Difficulty Level -->
+      <div class="mb-4">
+        <p class="text-muted fs-5 animate__animated animate__slideInLeft">
+          <i class="fa-solid fa-circle-info text-info me-2"></i>{{ course.description }}
+        </p>
+        <p>
+          <i class="fa-solid fa-chart-bar text-warning me-2"></i>
+          <strong>Difficulty Level:</strong>
+          <span class="badge bg-gradient-to-right animate__animated animate__heartBeat">
+            {{ course.niveau_difficulte }}
+          </span>
+        </p>
+      </div>
+
+      <!-- Centered Course Video -->
+      <div *ngIf="course.video" class="text-center mb-4 animate__animated animate__fadeInRight">
+        <strong class="d-block mb-2">
+          <i class="fa-solid fa-video text-danger me-2"></i>Course Video:
+        </strong>
+        <div class="d-flex justify-content-center">
+          <div class="ratio ratio-16x9 video-container shadow-lg rounded border border-light">
+            <iframe 
+              [src]="getSanitizedVideoUrl(course.video)" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz Button -->
+      <div class="text-center mt-4">
+        <button 
+          class="btn btn-gradient btn-lg shadow-lg animate__animated animate__pulse animate__infinite" 
+          (click)="navigateToQuiz(courseId)">
+          <i class="fa-solid fa-clipboard-question me-2"></i>🚀 Take the Quiz
+        </button>
+      </div>
     </div>
   </div>
-  <button 
-  class="btn btn-success mt-3" 
-  (click)="navigateToQuiz(courseId)">
-  Quiz
-</button>
+</div>
+
+<div *ngIf="!course" class="text-center my-5">
+  <p class="text-muted animate__animated animate__flash">
+    <i class="fa-solid fa-spinner fa-spin text-primary"></i> Loading course details...
+  </p>
+</div>
+
   
-  <div *ngIf="!course">
-    <p>Loading course details...</p>
-  </div>
-  
+</body>

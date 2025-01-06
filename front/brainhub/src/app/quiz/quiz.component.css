@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 /* Container for the entire quiz */
 .quiz-container {
     max-width: 600px;
@@ -96,7 +97,7 @@
 /**/
 /**/
 /**/
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
 :root {
   --vs-primary: 29 92 255;
 }

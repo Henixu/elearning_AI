@@ -69,5 +69,23 @@
   .login-dark form .btn-primary:active {
     transform: translateY(1px);
   }
+
+
+
+  .notification {
+    position: absolute; /* Position above other elements */
+    top: 10px; /* Adjust top distance as needed */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center properly */
+    background-color: #000000; /* Red background for error */
+    color: #721c24; /* Dark red text */
+    border: 1px solid #f5c6cb; /* Light red border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 20px; /* Padding for content */
+    text-align: center;
+    z-index: 1000; /* Ensure it appears above all other elements */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    max-width: 90%; /* Adjust max width if needed */
+  }
   
   

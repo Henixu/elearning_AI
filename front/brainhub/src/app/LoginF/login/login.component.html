@@ -2,6 +2,9 @@
     <form (ngSubmit)="onSubmit()">
       <h2 class="sr-only">Login Form</h2>
       <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
+      <div *ngIf="showNotification" class="notification">
+        {{ errorMessage }}
+      </div>
       <div class="form-group">
         <input
           class="form-control"

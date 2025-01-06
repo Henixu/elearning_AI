@@ -8,6 +8,8 @@ class Learner(models.Model):
     niveau = models.CharField(max_length=50, choices=[('débutant', 'Débutant'), ('intermédiaire', 'Intermédiaire'), ('avancé', 'Avancé')])
     preferences = models.JSONField(default=list,  blank=True)
     date_inscription = models.DateField(auto_now_add=True)
+    failed_attempts = models.IntegerField(default=0)
+    ban_until = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):
         return f"Learner: {self.user.username}"

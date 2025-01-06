@@ -14,7 +14,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Course
 from django.shortcuts import get_object_or_404
-
+from django.utils.timezone import now
+from datetime import timedelta
 @csrf_exempt
 def register_view(request):
     if request.method == 'POST':
@@ -57,6 +58,78 @@ def register_view(request):
 
     # If the request is not POST, return a method not allowed error
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+# @csrf_exempt
+# def login_view(request):
+#     if request.method == 'POST':
+#         try:
+#             # Parse JSON data
+#             data = json.loads(request.body)
+#             email = data.get('email')  # Use email instead of username
+#             password = data.get('password')
+#         except json.JSONDecodeError:
+#             return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+
+#         # Validate fields
+#         if not email or not password:
+#             return JsonResponse({'error': 'Email and password are required'}, status=400)
+
+#         # Check if the user exists by email (query User model instead of Learner)
+#         try:
+#             user = User.objects.get(email=email)  # Query by email in the User model
+#         except User.DoesNotExist:
+#             return JsonResponse({'error': 'Invalid email or password'}, status=401)
+
+#         # Verify the password using the User's password field
+#         if not user.check_password(password):
+#             return JsonResponse({'error': 'Invalid email or password'}, status=401)
+
+#         # Retrieve the learner associated with the user
+#         try:
+#             learner = learner = Learner.objects.get(user=user)  # Use the learner's user field
+#         except Learner.DoesNotExist:
+#             return JsonResponse({'error': 'Learner not found'}, status=404)
+
+#         # Retrieve progress and recommendations
+#         progress = [
+#             {
+#                 'course_title': p.course.titre,
+#                 'progress_percentage': p.progress_percentage,
+#                 'status': p.status,
+#                 "image": p.course.image,
+#                 'date_updated': p.date_updated,
+#                 "course_id": p.course.id
+#             }
+#             for p in learner.progress.all()
+#         ]
+        
+
+#         recommendations = [
+#             {
+#                 'type': r.type_recommendation,
+#                 'content': r.contenu,
+#                 'date_recommendation': r.date_recommandation
+#             }
+#             for r in learner.recommendations.all()
+#         ]
+#         preferences = learner.preferences if learner.preferences else []
+#         # Construct the response
+#         response_data = {
+#             'learner': {
+#                 'id': learner.id,
+#                 'username': learner.user.username,  # Access the User's username
+#                 'email': learner.user.email,  # Access the User's email
+#                 'niveau': learner.niveau,
+#                 'preferences': preferences,
+#                 'date_inscription': learner.date_inscription
+#             },
+#             'progress': progress,
+#             'user_id': user.id,
+#             'recommendations': recommendations
+#         }
+
+#         return JsonResponse(response_data, status=200)
+
+#     return JsonResponse({'error': 'Invalid request method'}, status=405)
 @csrf_exempt
 def login_view(request):
     if request.method == 'POST':
@@ -72,21 +145,40 @@ def login_view(request):
         if not email or not password:
             return JsonResponse({'error': 'Email and password are required'}, status=400)
 
-        # Check if the user exists by email (query User model instead of Learner)
+        # Check if the user exists by email
         try:
-            user = User.objects.get(email=email)  # Query by email in the User model
+            user = User.objects.get(email=email)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'Invalid email or password'}, status=401)
-
-        # Verify the password using the User's password field
-        if not user.check_password(password):
             return JsonResponse({'error': 'Invalid email or password'}, status=401)
 
         # Retrieve the learner associated with the user
         try:
-            learner = learner = Learner.objects.get(user=user)  # Use the learner's user field
+            learner = Learner.objects.get(user=user)
         except Learner.DoesNotExist:
             return JsonResponse({'error': 'Learner not found'}, status=404)
+
+        # Check if the learner is currently banned
+        if learner.ban_until and now() < learner.ban_until:
+            return JsonResponse({
+                'error': 'Account is temporarily locked. Try again later.',
+                'ban_until': learner.ban_until
+            }, status=403)
+
+        # Verify the password
+        if not user.check_password(password):
+            # Increment failed attempts
+            learner.failed_attempts += 1
+            if learner.failed_attempts >= 3:
+                # Set ban time for 5 minutes
+                learner.ban_until = now() + timedelta(minutes=1)
+                learner.failed_attempts = 0  # Reset failed attempts after banning
+            learner.save()
+            return JsonResponse({'error': 'Invalid email or password'}, status=401)
+
+        # Reset failed attempts and ban status on successful login
+        learner.failed_attempts = 0
+        learner.ban_until = None
+        learner.save()
 
         # Retrieve progress and recommendations
         progress = [
@@ -94,13 +186,12 @@ def login_view(request):
                 'course_title': p.course.titre,
                 'progress_percentage': p.progress_percentage,
                 'status': p.status,
-                "image": p.course.image,
+                'image': p.course.image,
                 'date_updated': p.date_updated,
-                "course_id": p.course.id
+                'course_id': p.course.id
             }
             for p in learner.progress.all()
         ]
-        
 
         recommendations = [
             {
@@ -110,7 +201,9 @@ def login_view(request):
             }
             for r in learner.recommendations.all()
         ]
+
         preferences = learner.preferences if learner.preferences else []
+
         # Construct the response
         response_data = {
             'learner': {
@@ -129,7 +222,6 @@ def login_view(request):
         return JsonResponse(response_data, status=200)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
-
 
 # View to list all courses
 def list_courses(request):

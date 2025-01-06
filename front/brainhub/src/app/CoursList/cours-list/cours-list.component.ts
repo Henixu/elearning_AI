@@ -12,10 +12,30 @@ export class CoursListComponent {
   cours: Course[] = []; // All courses
   filteredCours: Course[] = []; // Filtered courses
   searchQuery: string = ''; // Search query
-  
+  rec: Course[] = []
+  user: any;
+  currentSlide = 0;
+
+  prevSlide() {
+    const maxSlides = this.rec.length;
+    this.currentSlide = (this.currentSlide - 1 + maxSlides) % maxSlides;
+    this.updateSlidePosition();
+  }
+
+  nextSlide() {
+    const maxSlides = this.rec.length;
+    this.currentSlide = (this.currentSlide + 1) % maxSlides;
+    this.updateSlidePosition();
+  }
+
+  updateSlidePosition() {
+    const sliderWrapper = document.querySelector('.slider-wrapper') as HTMLElement;
+    sliderWrapper.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+  }
   constructor(private coursesService: CoursesService,private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
+    this.user = this.userService.getUser();
     this.coursesService.getCourses().subscribe({
       next: (response) => {
         this.cours = response.courses; // Populate courses
@@ -26,6 +46,20 @@ export class CoursListComponent {
         console.error('Error fetching courses:', err);
       }
     });
+    this.coursesService.getRec(this.user.learner.id).subscribe({
+      next: (response) => {
+        console.log('Recommendations Response:', response);
+        if (response && response.recommendations) {
+          this.rec = response.recommendations; // Populate recommendations
+        } else {
+          console.error('Recommendations not found in response');
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching recs:', err);
+      }
+    });
+    
   }
 
   // Filter the courses based on the search query

@@ -11,5 +11,6 @@ export interface Course {
   export interface CourseResponse {
     courses: Course[];
     course: Course;
+    recommendations: Course[];
   }
   

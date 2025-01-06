@@ -26,5 +26,8 @@ export class CoursesService {
   getPopularCourses(): Observable<any> {
     return this.http.get(this.popularcorsesAPI);
   }
+  getRec(learnerId: number): Observable<CourseResponse> {
+    return this.http.get<CourseResponse>(`http://localhost:8000/recommendations/${learnerId}/`);
+  }
 
 }

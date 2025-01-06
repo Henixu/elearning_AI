@@ -115,26 +115,80 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.contact-form .form-control {
-  border-radius: 20px;
-  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f7f8fa;
-  font-family: Arial, sans-serif;
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.contact-form {
-  margin-left:35%;
-  background: #fff;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  width: 100%;
+.contact-form h1 {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
 }
+
+.formbold-mb-5 {
+  margin-bottom: 20px;
+}
+
+.formbold-form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.formbold-form-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.formbold-form-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+textarea.formbold-form-input {
+  resize: none;
+}
+
+.formbold-btn {
+  display: inline-block;
+  width: 100%;
+  padding: 12px 15px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.formbold-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.formbold-btn:active {
+  background-color: #003d80;
+  transform: translateY(0);
+}
+
 
 h1 {
   text-align: center;
@@ -157,4 +211,43 @@ h1 {
       display: inline-block;
       margin-bottom: 10px;
   }
+}
+
+.popular-courses .course-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  height: 400px;  /* Hauteur fixe pour que toutes les cartes aient la même taille */
+  display: flex;
+  flex-direction: column;
+}
+
+.popular-courses .course-card img {
+  width: 100%;                /* L'image occupe toute la largeur de son conteneur */
+  height: 200px;              /* Fixe la hauteur de l'image */
+  object-fit: cover;          /* S'assure que l'image couvre tout l'espace sans déformation */
+  border-radius: 8px 8px 0 0; /* Coins arrondis en haut uniquement */
+}
+
+.popular-courses .course-card .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;               /* Permet à la carte de s'étendre pour remplir l'espace restant */
+  padding: 15px;
+}
+
+.popular-courses .course-card .card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.popular-courses .course-card .card-text {
+  flex-grow: 1;               /* Permet au texte de s'adapter à l'espace restant */
+}
+
+.popular-courses .course-card .btn {
+  align-self: center;
+  margin-top: 10px;
 }

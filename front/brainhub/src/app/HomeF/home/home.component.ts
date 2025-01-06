@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import emailjs from '@emailjs/browser';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
+import { CoursesService } from '../../services/courses.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,8 +13,8 @@ export class HomeComponent implements OnInit {
   isRecommendationsEmpty: boolean = false; // Default value is false (i.e., not empty)
   isPreferencesEmpty: boolean = false; 
   form!: FormGroup; // Use definite assignment assertion (!) to delay initialization
-
-  constructor(private userService: UserService, private fb: FormBuilder) { }
+  courses: any[] = [];
+  constructor(private userService: UserService, private fb: FormBuilder,private courseService: CoursesService, private router: Router) { }
 
   ngOnInit(): void {
     // Initialize the form after fb is initialized
@@ -39,6 +40,11 @@ export class HomeComponent implements OnInit {
     this.isPreferencesEmpty = preferences.length === 0;
 
     console.log('preferences list', preferences, 'is preferences empty=', this.isPreferencesEmpty, 'length', preferences.length);
+  
+    this.courseService.getPopularCourses().subscribe((data) => {
+      // Sort the courses by popularity in descending order and get top 3
+      this.courses = data.popular_courses.sort((a: any, b: any) => b.popularity - a.popularity).slice(0, 3);
+    });
   }
 
   async send() {
@@ -52,5 +58,8 @@ export class HomeComponent implements OnInit {
     });
     alert('Message Has been Sent !');
     this.form.reset();
+  }
+  viewCourseDetails(courseId: number): void {
+    this.router.navigate(['/course-details', courseId]);  // Navigate to the course details page
   }
 }

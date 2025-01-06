@@ -651,3 +651,34 @@ def course_recommendations_view(request, learner_id):
     
     # Return the recommendations as a JSON response
     return JsonResponse({"recommendations": serialized_recommendations})
+
+
+from django.db.models import Count
+
+def get_popular_courses(request):
+    # Query the Progress table to count occurrences of each course
+    popular_courses = (
+        Progress.objects.values('course')
+        .annotate(count=Count('course'))
+        .order_by('-count')[:10]  # Get the top 10 most popular courses
+    )
+
+    # Retrieve course details for the popular courses
+    course_ids = [item['course'] for item in popular_courses]
+    courses = Course.objects.filter(id__in=course_ids)
+
+    # Serialize the data
+    data = [
+        {
+            'id': course.id,
+            'titre': course.titre,
+            'niveau_difficulte': course.niveau_difficulte,
+            'image': course.image,
+            'popularity': next(
+                (item['count'] for item in popular_courses if item['course'] == course.id), 0
+            ),
+        }
+        for course in courses
+    ]
+
+    return JsonResponse({'popular_courses': data}, safe=False)

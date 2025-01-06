@@ -8,6 +8,7 @@ import { Course } from '../model/course'; // Adjust the path as necessary
 })
 export class CoursesService {
   private apiUrl = 'http://localhost:8000/courses'; // Replace with your API URL
+  private popularcorsesAPI = 'http://127.0.0.1:8000/popular-courses/'; // Replace with your API URL
 
   constructor(private http: HttpClient) {}
 
@@ -21,4 +22,9 @@ export class CoursesService {
   getCourseById(courseId: number): Observable<CourseResponse> {
     return this.http.get<CourseResponse>(`http://localhost:8000/api/course/${courseId}/`);
   }
+
+  getPopularCourses(): Observable<any> {
+    return this.http.get(this.popularcorsesAPI);
+  }
+
 }
